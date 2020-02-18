@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Typography } from '@material-ui/core';
 import { MuiPickersUtilsProvider, InlineDatePicker } from "material-ui-pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import Select from 'react-select'
 import { Autocomplete } from '@material-ui/lab';
 
 class Form extends React.Component {
@@ -10,6 +9,9 @@ class Form extends React.Component {
     super(props);
     this.state = {
       artist: '',
+      concerts: [],
+      todohukens: [],
+      kaijos: [],
       inputs: [],
       selectedDates: []
     };
@@ -27,19 +29,78 @@ class Form extends React.Component {
     this.setState({ selectedDates: selectedDates_copy });
   };
 
+  handleChange_concert = e => {
+    const index = e.target.id.split(' ')[0].replace('index', '');
 
-  text_input = textValue => {
-    //if ()
-    this.setState({ artist: textValue });
-  };
+    // stateの配列を更新するためコピー先の配列全体を変更する
+    const concerts_copy = this.state.concerts.slice();
+    concerts_copy[index] = e.target.value;
+    this.setState({ concerts: concerts_copy });
+  }
+
+  handleChange_todohuken = e => {
+    // 都道府県プルダウン操作した時
+    let index;
+    if (e.target.id){
+      index = e.target.id.split(' ')[0].replace('index', '');
+    }
+    // 右のxボタンで都道府県名を消した場合
+    else{
+      index = e.target.parentElement.parentElement.parentElement.parentElement.querySelector('input').id.split(' ')[0].replace('index', '');
+    }
+    const str = e.target.innerHTML[0] == '<' ? '' : e.target.innerHTML;
+
+    // stateの配列を更新するためコピー先の配列全体を変更する
+    const todohukens_copy = this.state.todohukens.slice();
+    todohukens_copy[index] = str;
+    this.setState({ todohukens: todohukens_copy });
+  }
+
+  handleChange_kaijo = e => {
+    const index = e.target.id.split(' ')[0].replace('index', '');
+
+    // stateの配列を更新するためコピー先の配列全体を変更する
+    const kaijos_copy = this.state.kaijos.slice();
+    kaijos_copy[index] = e.target.value;
+    this.setState({ kaijos: kaijos_copy });
+  }
 
   // 「公演情報を追加する」ボタンが押された時に実行される関数
   append_details = () => {
+    const artist_isinputted = this.state.artist;
     const newInput = this.state.inputs.length;
-    this.setState(prevState => ({
-      inputs: prevState.inputs.concat([newInput]),
-      selectedDates: prevState.selectedDates.concat([new Date()])
-     }));
+    // アーティスト名が入力されているか
+    if (artist_isinputted){
+      if (newInput == 0){
+        this.setState(prevState => ({
+          inputs: prevState.inputs.concat([newInput]),
+          concerts: prevState.concerts.concat(['']),
+          todohukens: prevState.todohukens.concat(['']),
+          kaijos: prevState.kaijos.concat(['']),
+          selectedDates: prevState.selectedDates.concat([new Date()])
+        }));
+      }
+      else{
+        // 全ての情報が記入されていたら公演情報追加を許す
+        if(this.state.concerts.indexOf('') == -1 && this.state.todohukens.indexOf('') == -1 && this.state.kaijos.indexOf('') == -1){
+          this.setState(prevState => ({
+            inputs: prevState.inputs.concat([newInput]),
+            concerts: prevState.concerts.concat(['']),
+            todohukens: prevState.todohukens.concat(['']),
+            kaijos: prevState.kaijos.concat(['']),
+            selectedDates: prevState.selectedDates.concat([new Date()])
+          }));
+        }
+        else{
+          // requiredを誘発するためsubmit()ではなくclick()
+          document.getElementById('submit').click();
+        }
+      }
+    }
+    else{
+      // requiredを誘発するためsubmit()ではなくclick()
+      document.getElementById('submit').click();
+    }
   };
 
   render() {
@@ -51,18 +112,26 @@ class Form extends React.Component {
               label="アーティスト名"
               id="standard-basic"
               value={this.state.artist}
-              onChange={e => this.text_input(e.target.value)}
+              onChange={e => this.setState({ artist: e.target.value })}
               required
             />
             <br />
 
             {/* 公演情報を追加する」ボタンが押された時に順次追加*/}
             {this.state.inputs.map(input =>
-              <div>
+              <div key={input}>
+                <br />
+                <Typography
+                  variant="h6"
+                  color="secondary"
+                  gutterBottom>
+                  公演情報{input+1}
+                </Typography>
+
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <InlineDatePicker
                     label="ライブ日程"
-                    format="MM/dd/yyyy"
+                    format="yyyy/MM/dd"
                     onChange={date => this.handleDateChange(date+input)}
                     value={this.state.selectedDates[input]}
                   />
@@ -71,15 +140,18 @@ class Form extends React.Component {
 
                 <TextField
                   label="ライブ名"
-                  id="standard-basic"
+                  id={`index${input} standard-basic`}
+                  onChange={this.handleChange_concert}
+                  value={this.state.concerts[input]}
                   required
                 />
                 <br />
 
                 <Autocomplete
-                  id="combo-box-demo"
+                  id={`index${input} combo-box-demo`}
                   options={options}
                   getOptionLabel={option => option.label}
+                  onChange={this.handleChange_todohuken}
                   style={{ width: 300 }}
                   renderInput={params => (
                     <TextField {...params}
@@ -93,7 +165,9 @@ class Form extends React.Component {
 
                 <TextField
                   label="会場名"
-                  id="standard-basic"
+                  id={`index${input} standard-basic`}
+                  onChange={this.handleChange_kaijo}
+                  value={this.state.kaijos[input]}
                   required
                 />
                 <br />
@@ -109,6 +183,7 @@ class Form extends React.Component {
             </Button>
             <br />
             <Button
+              id="submit"
               variant="contained"
               color="primary"
               type="submit">
@@ -169,23 +244,5 @@ const options = [
 	{ value:  "kagosima かごしま",  label: "鹿児島県" },
 	{ value:  "okinawa おきなわ",  label: "沖縄県" }
 ]
-
-/*
-//アーティストを探すときにこれがあるといい
-//データベースから読み込めたらいいね
-<Autocomplete
-        id="free-solo-demo"
-        freeSolo
-        options={top100Films.map(option => option.title)}
-        renderInput={params => (
-          <TextField {...params} label="freeSolo" margin="normal" variant="outlined" fullWidth />
-        )}
-      />
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-];
-*/
 
 export default Form;
