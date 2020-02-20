@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^7.1.2",
     "date-fns": "^2.0.0-beta.5",
     "material-ui-pickers": "^2.2.4",
+    "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.4.0",
