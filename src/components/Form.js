@@ -87,7 +87,6 @@ class Form extends React.Component {
 
   // 「公演情報を追加する」ボタンが押された時に実行される関数
   append_details = () => {
-    console.log(this.state.inputs);
     const artist_isinputted = this.state.artist;
     const newInput = this.state.inputs.length;
     // アーティスト名が入力されているか
@@ -118,13 +117,13 @@ class Form extends React.Component {
         }
         else{
           // requiredを誘発するためsubmit()ではなくclick()
-          document.getElementById('submit').click();
+          document.getElementById('dummysubmit').click();
         }
       }
     }
     else{
       // requiredを誘発するためsubmit()ではなくclick()
-      document.getElementById('submit').click();
+      document.getElementById('dummysubmit').click();
     }
   };
 
@@ -154,7 +153,6 @@ class Form extends React.Component {
   };
 
   addDetails = e => {
-    e.preventDefault();
 
     fetch('http://localhost:3001/concert_details', {
       method: 'POST',
@@ -275,8 +273,8 @@ class Form extends React.Component {
             {addButton}
             <br />
             {regButton}
+            <Button id="dummysubmit" display="none" type="submit"></Button>
           </form>
-          {this.state.json}
         </div>
     );
   }
