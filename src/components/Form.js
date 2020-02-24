@@ -15,7 +15,8 @@ class Form extends React.Component {
       kaijos: [],
       inputs: [],
       selectedDates: [],
-      isinputted: false
+      isinputted: false,
+      json: ''
     };
   }
 
@@ -152,20 +153,62 @@ class Form extends React.Component {
     });
   };
 
+  addDetails = e => {
+    e.preventDefault();
+
+    fetch('http://localhost:3001/concert_details', {
+      method: 'POST',
+      body: JSON.stringify({
+        artist: this.state.artist,
+        dates: this.state.selectedDates,
+        concerts: this.state.concerts,
+        todohukens: this.state.todohukens,
+        kaijos: this.state.kaijos
+      }),
+      headers: new Headers({ 'Content-type' : 'application/json' })
+    })
+  };
+
+
   render() {
+
+    const artist_input = (
+      <TextField
+        label="アーティスト名"
+        id="standard-basic"
+        value={this.state.artist}
+        onChange={e => this.setState({ artist: e.target.value })}
+        required
+      />
+    );
+
+    const addButton = (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={this.append_details}>
+        公演情報を追加する
+      </Button>
+    );
+
+    const regButton = (
+      <Button
+        id="submit"
+        variant="contained"
+        color="primary"
+        className={this.state.isinputted ? "" : "submit-disabled"}
+        onClick={this.addDetails}
+        type="submit"
+        >
+        登録する
+      </Button>
+    );
 
     return (
         <div id="form">
           <form>
-            <TextField
-              label="アーティスト名"
-              id="standard-basic"
-              value={this.state.artist}
-              onChange={e => this.setState({ artist: e.target.value })}
-              required
-            />
+            {artist_input}
             <br />
-
             {/* 公演情報を追加する」ボタンが押された時に順次追加*/}
             {this.state.inputs.map((v, i) =>
               <div key={i}>
@@ -228,25 +271,12 @@ class Form extends React.Component {
                 <br />
               </div>
             )}
-
             <br />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.append_details}>
-              公演情報を追加する
-            </Button>
+            {addButton}
             <br />
-            <Button
-              id="submit"
-              variant="contained"
-              color="primary"
-              className={this.state.isinputted ? "" : "submit-disabled"}
-              type="submit"
-              >
-              登録する
-            </Button>
+            {regButton}
           </form>
+          {this.state.json}
         </div>
     );
   }
