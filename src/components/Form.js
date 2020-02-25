@@ -177,7 +177,7 @@ class Form extends React.Component {
     const artist_input = (
       <TextField
         label="アーティスト名"
-        id="standard-basic"
+        id="aritirs_input standard-basic"
         value={this.state.artist}
         onChange={e => this.setState({ artist: e.target.value })}
         required
@@ -208,6 +208,11 @@ class Form extends React.Component {
 
     return (
         <div id="form">
+          <Typography
+            color="textSecondary"
+            >
+            *必須
+          </Typography><br />
           <form>
             {artist_input}
             <br />
