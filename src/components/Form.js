@@ -153,8 +153,12 @@ class Form extends React.Component {
   };
 
   addDetails = e => {
-    fetch('https://concertsharing.herokuapp.com/concert_details', {
+    if(!this.state.isinputted){
+      e.preventDefault();
+      return false;
+    }
     //fetch('http://localhost:3001/concert_details', {
+    fetch('http://localhost:3001/concert_details', {
       method: 'POST',
       body: JSON.stringify({
         artist: this.state.artist,
