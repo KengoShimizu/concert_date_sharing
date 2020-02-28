@@ -187,7 +187,7 @@ class Form extends React.Component {
     const addButton = (
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         onClick={this.append_details}>
         公演情報を追加する
       </Button>
@@ -197,7 +197,7 @@ class Form extends React.Component {
       <Button
         id="submit"
         variant="contained"
-        color="primary"
+        color="secondary"
         className={this.state.isinputted ? "" : "submit-disabled"}
         onClick={this.addDetails}
         type="submit"
@@ -227,7 +227,7 @@ class Form extends React.Component {
                   公演情報{i+1}
                   <Button
                 　  variant="contained"
-                  　color="primary"
+                  　color="secondary"
                   　onClick={() => this.delete_details(i)}>
                     削除する
                   </Button>
@@ -282,7 +282,7 @@ class Form extends React.Component {
             {addButton}
             <br />
             {regButton}
-            <Button id="dummysubmit" display="none" type="submit"></Button>
+            <Button id="dummysubmit" type="submit" style={{display: "none"}}>dummy</Button>
           </form>
         </div>
     );

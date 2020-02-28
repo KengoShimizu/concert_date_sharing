@@ -1,21 +1,16 @@
 import React from 'react';
-import '../App.scss';
 import Form from '../components/Form';
-import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
-function App() {
+function Register() {
   return (
-    <div className="App">
-      <Header />
-      <div className="description">こーこーこーゆーサイトです．</div>
-
+    <div className="Register">
       <Form />
-      <Link to="/search">
+      <Link to="/">
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           >
           ライブ情報を検索する
         </Button>
@@ -25,4 +20,4 @@ function App() {
   );
 }
 
-export default App;
+export default Register;

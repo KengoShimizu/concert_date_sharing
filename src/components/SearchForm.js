@@ -70,16 +70,16 @@ class SearchForm extends React.Component {
               />
             )}
           />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.search}
-              className={this.state.isinputted ? "" : "submit-disabled"}
-              >
-              ライブ日程を検索する
-            </Button>
-          </form>
-        </div>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={this.search}
+            className={this.state.isinputted ? "" : "submit-disabled"}
+            >
+            ライブ日程を検索する
+          </Button>
+        </form>
+      </div>
     );
   }
 }

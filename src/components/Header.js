@@ -1,18 +1,34 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from '../common_theme';
 
-const Header = () => (
-  <AppBar position="static">
-  <Toolbar variant="dense">
-    <IconButton edge="start" color="inherit" aria-label="menu">
-      <MenuIcon />
-    </IconButton>
-    <Typography variant="h6" color="inherit">
-      Photos
-    </Typography>
-  </Toolbar>
-</AppBar>
-);
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  appbar: {
+    alignItems: 'center',
+  }
+};
 
-export default Header;
+class Header extends React.Component {
+  render() {
+    const { classes } = this.props;
+    return(
+      <div className={classes.root}>
+        <ThemeProvider theme={theme}>
+          <AppBar position="static" className={classes.appbar} color="primary">
+            <Toolbar variant="dense">
+              <Typography variant="h6">
+                ライブ情報共有サイト
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </ThemeProvider>
+      </div>
+    );
+  }
+};
+
+export default withStyles(styles)(Header);
