@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
-import theme from '../common_theme';
+import { theme_ } from '../common_theme';
 
 const styles = {
   root: {
@@ -17,7 +17,7 @@ class Header extends React.Component {
     const { classes } = this.props;
     return(
       <div className={classes.root}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme_}>
           <AppBar position="static" className={classes.appbar} color="primary">
             <Toolbar variant="dense">
               <Typography variant="h6">
@@ -26,6 +26,7 @@ class Header extends React.Component {
             </Toolbar>
           </AppBar>
         </ThemeProvider>
+        <br />
       </div>
     );
   }

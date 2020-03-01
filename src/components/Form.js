@@ -1,9 +1,10 @@
 import React from 'react';
 import './sass/form.scss';
-import { Button, TextField, Typography } from '@material-ui/core';
+import { Button, TextField, Typography, Paper, Grid } from '@material-ui/core';
 import { MuiPickersUtilsProvider, InlineDatePicker } from "material-ui-pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Autocomplete } from '@material-ui/lab';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 class Form extends React.Component {
   constructor(props) {
@@ -19,6 +20,22 @@ class Form extends React.Component {
       json: ''
     };
   }
+
+  input_artist = e => {
+    this.setState({ artist: e.target.value }, () => {
+      // 全ての情報が記入されていたらsubmitを許す
+      if(this.state.artist !== '' &&
+         this.state.inputs.length !== 0 &&
+         this.state.concerts.indexOf('') === -1 &&
+         this.state.todohukens.indexOf('') === -1 &&
+         this.state.kaijos.indexOf('') === -1){
+           this.setState({ isinputted: true});
+      }
+      else{
+        this.setState({ isinputted: false});
+      }
+    });
+  };
 
   // dateがpickされたときに実行される関数
   handleDateChange = (date, index) => {
@@ -36,7 +53,8 @@ class Form extends React.Component {
     // this.setStateの即時反映には，コールバックを使う
     this.setState({ concerts: concerts_copy }, () => {
       // 全ての情報が記入されていたらsubmitを許す
-      if(this.state.concerts.indexOf('') === -1 &&
+      if(this.state.artist !== '' &&
+         this.state.concerts.indexOf('') === -1 &&
          this.state.todohukens.indexOf('') === -1 &&
          this.state.kaijos.indexOf('') === -1){
            this.setState({ isinputted: true});
@@ -55,7 +73,8 @@ class Form extends React.Component {
     todohukens_copy[index] = str;
     this.setState({ todohukens: todohukens_copy }, () => {
       // 全ての情報が記入されていたらsubmitを許す
-      if(this.state.concerts.indexOf('') === -1 &&
+      if(this.state.artist !== '' &&
+         this.state.concerts.indexOf('') === -1 &&
          this.state.todohukens.indexOf('') === -1 &&
          this.state.kaijos.indexOf('') === -1){
            this.setState({ isinputted: true});
@@ -73,7 +92,8 @@ class Form extends React.Component {
     kaijos_copy[index] = e.target.value;
     this.setState({ kaijos: kaijos_copy }, () => {
       // 全ての情報が記入されていたらsubmitを許す
-      if(this.state.concerts.indexOf('') === -1 &&
+      if(this.state.artist !== '' &&
+         this.state.concerts.indexOf('') === -1 &&
          this.state.todohukens.indexOf('') === -1 &&
          this.state.kaijos.indexOf('') === -1){
            this.setState({ isinputted: true});
@@ -85,7 +105,7 @@ class Form extends React.Component {
 
   }
 
-  // 「公演情報を追加する」ボタンが押された時に実行される関数
+  // 「ライブ情報を追加する」ボタンが押された時に実行される関数
   append_details = () => {
     const artist_isinputted = this.state.artist;
     const newInput = this.state.inputs.length;
@@ -102,8 +122,9 @@ class Form extends React.Component {
         }));
       }
       else{
-        // 全ての情報が記入されていたら公演情報追加を許す
-        if(this.state.concerts.indexOf('') === -1 &&
+        // 全ての情報が記入されていたらライブ情報追加を許す
+        if(this.state.artist !== '' &&
+           this.state.concerts.indexOf('') === -1 &&
            this.state.todohukens.indexOf('') === -1 &&
            this.state.kaijos.indexOf('') === -1){
           this.setState(prevState => ({
@@ -140,10 +161,11 @@ class Form extends React.Component {
       kaijos: prevState.kaijos,
       selectedDates: prevState.selectedDates
     }), () => {
-      // 全ての情報が記入されていたらsubmitを許す
-      if(this.state.concerts.indexOf('') === -1 &&
+      // 全ての情報が記入されていてかつ，ライブ情報入力欄が1つ以上ある場合submitを許す
+      if((this.state.artist !== '' &&
+         this.state.concerts.indexOf('') === -1 &&
          this.state.todohukens.indexOf('') === -1 &&
-         this.state.kaijos.indexOf('') === -1){
+         this.state.kaijos.indexOf('') === -1) && index !== 0){
            this.setState({ isinputted: true});
       }
       else{
@@ -179,8 +201,9 @@ class Form extends React.Component {
         label="アーティスト名"
         id="aritirs_input standard-basic"
         value={this.state.artist}
-        onChange={e => this.setState({ artist: e.target.value })}
+        onChange={this.input_artist}
         required
+        fullWidth
       />
     );
 
@@ -188,8 +211,9 @@ class Form extends React.Component {
       <Button
         variant="contained"
         color="secondary"
-        onClick={this.append_details}>
-        公演情報を追加する
+        onClick={this.append_details}
+        fullWidth>
+        ライブ情報を追加する
       </Button>
     );
 
@@ -197,89 +221,94 @@ class Form extends React.Component {
       <Button
         id="submit"
         variant="contained"
-        color="secondary"
+        color="primary"
         className={this.state.isinputted ? "" : "submit-disabled"}
         onClick={this.addDetails}
         type="submit"
-        >
+        fullWidth>
         登録する
       </Button>
     );
 
     return (
         <div id="form">
-          <Typography
-            color="textSecondary"
-            >
-            *必須
-          </Typography><br />
           <form>
             {artist_input}
             <br />
-            {/* 公演情報を追加する」ボタンが押された時に順次追加*/}
+            {/* ライブ情報を追加する」ボタンが押された時に順次追加*/}
             {this.state.inputs.map((v, i) =>
               <div key={i}>
                 <br />
-                <Typography
-                  variant="h6"
-                  color="secondary"
-                  gutterBottom>
-                  公演情報{i+1}
-                  <Button
-                　  variant="contained"
-                  　color="secondary"
-                  　onClick={() => this.delete_details(i)}>
-                    削除する
-                  </Button>
-                </Typography>
+                <Paper style={{backgroundColor: "#e3f2fd"}}>
+                  <div style={{width:'95%', margin:'0 auto'}}>
+                    <Grid container justify="center">
+                      <Grid item xs={11}>
+                        <Typography
+                          variant="h6"
+                          color="secondary"
+                          gutterBottom>
+                          ライブ情報{i+1}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={1}>
+                        <DeleteForeverIcon onClick={() => this.delete_details(i)}/>
+                      </Grid>
+                    </Grid>
+                    <br />
 
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <InlineDatePicker
-                    label="ライブ日程"
-                    format="yyyy/MM/dd"
-                    onChange={date => this.handleDateChange(date, i)}
-                    value={this.state.selectedDates[i]}
-                  />
-                </MuiPickersUtilsProvider>
-                <br />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <InlineDatePicker
+                        label="ライブ日程"
+                        format="yyyy/MM/dd"
+                        onChange={date => this.handleDateChange(date, i)}
+                        value={this.state.selectedDates[i]}
+                        fullWidth
+                      />
+                    </MuiPickersUtilsProvider>
+                    <br />
 
-                <TextField
-                  label="ライブ名"
-                  id={`index${i} standard-basic`}
-                  onChange={e => this.handleChange_concert(e, i)}
-                  value={this.state.concerts[i]}
-                  required
-                />
-                <br />
-
-                <Autocomplete
-                  id={`index${i} combo-box-demo`}
-                  options={options}
-                  getOptionLabel={option => option.label}
-                  onChange={e => this.handleChange_todohuken(e, i)}
-                  style={{ width: 300 }}
-                  renderInput={params => (
-                    <TextField {...params}
-                      label="都道府県"
-                      id="standard-basic"
+                    <TextField
+                      label="ライブ名"
+                      id={`index${i} standard-basic`}
+                      onChange={e => this.handleChange_concert(e, i)}
+                      value={this.state.concerts[i]}
                       required
                       fullWidth
                     />
-                  )}
-                />
+                    <br />
 
-                <TextField
-                  label="会場名"
-                  id={`index${i} standard-basic`}
-                  onChange={e => this.handleChange_kaijo(e, i)}
-                  value={this.state.kaijos[i]}
-                  required
-                />
-                <br />
+                    <Autocomplete
+                      id={`index${i} combo-box-demo`}
+                      options={options}
+                      getOptionLabel={option => option.label}
+                      onChange={e => this.handleChange_todohuken(e, i)}
+                      renderInput={params => (
+                        <TextField {...params}
+                          label="都道府県"
+                          id="standard-basic"
+                          required
+                          fullWidth
+                        />
+                      )}
+                    />
+
+                    <TextField
+                      label="会場名"
+                      id={`index${i} standard-basic`}
+                      onChange={e => this.handleChange_kaijo(e, i)}
+                      value={this.state.kaijos[i]}
+                      required
+                      fullWidth
+                    />
+                    <br />
+                    <br />
+                  </div>
+                </Paper>
               </div>
             )}
             <br />
             {addButton}
+            <br />
             <br />
             {regButton}
             <Button id="dummysubmit" type="submit" style={{display: "none"}}>dummy</Button>
