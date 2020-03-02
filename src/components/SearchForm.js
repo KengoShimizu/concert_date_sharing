@@ -16,8 +16,9 @@ class SearchForm extends React.Component {
 
   //DBアクセス・Json取得
   fetchResponse = () => {
-    //fetch('https://concertsharing.herokuapp.com/concert_details')
     fetch('http://localhost:3001/concert_details')
+    //fetch('https://concertsharing.herokuapp.com/concert_details')
+
     .then( res => res.json() )
     .then( res => {
       this.setState({
