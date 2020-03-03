@@ -1,10 +1,22 @@
 import React from 'react';
-import './sass/form.scss';
-import { Button, TextField, Typography, Paper, Grid } from '@material-ui/core';
+import { Button, TextField, Typography, Paper, Grid, withStyles } from '@material-ui/core';
 import { MuiPickersUtilsProvider, InlineDatePicker } from "material-ui-pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Autocomplete } from '@material-ui/lab';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { json_url } from '../common_theme';
+
+const styles = {
+  submit_disabled: {
+    pointerEvents: 'none !important',
+    color: 'rgba(0, 0, 0, 0.26) !important',
+    boxShadow: 'none !important',
+    backgroundColor: 'rgba(0, 0, 0, 0.12) !important',
+    'span': {
+      color: 'rgba(0, 0, 0, 0.26) !important',
+    }
+  }
+};
 
 class Form extends React.Component {
   constructor(props) {
@@ -179,8 +191,7 @@ class Form extends React.Component {
       e.preventDefault();
       return false;
     }
-    fetch('https://concertapi.herokuapp.com/concert_details', {
-    //fetch('http://localhost:3001/concert_details', {
+    fetch( json_url , {
       method: 'POST',
       body: JSON.stringify({
         artist: this.state.artist,
@@ -195,6 +206,7 @@ class Form extends React.Component {
 
 
   render() {
+    const { classes } = this.props;
 
     const artist_input = (
       <TextField
@@ -222,7 +234,7 @@ class Form extends React.Component {
         id="submit"
         variant="contained"
         color="primary"
-        className={this.state.isinputted ? "" : "submit-disabled"}
+        className={this.state.isinputted ? "" : classes.submit_disabled}
         onClick={this.addDetails}
         type="submit"
         fullWidth>
@@ -368,4 +380,4 @@ const options = [
 	{ value:  "okinawa おきなわ",  label: "沖縄県" }
 ]
 
-export default Form;
+export default withStyles(styles)(Form);

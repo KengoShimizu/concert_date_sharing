@@ -1,14 +1,19 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { theme_ } from '../common_theme';
+import { AppBar, Toolbar, Typography, withStyles, Grid } from '@material-ui/core';
+import logo from '../img/logo.png';
 
 const styles = {
-  root: {
-    flexGrow: 1,
-  },
   appbar: {
-    alignItems: 'center',
+    alignItems: 'center'
+  },
+  headerText: {
+    opacity: '0.7'
+  },
+  img: {
+    width: '100px'
+  },
+  textField: {
+    width: '100%'
   }
 };
 
@@ -17,15 +22,20 @@ class Header extends React.Component {
     const { classes } = this.props;
     return(
       <div className={classes.root}>
-        <ThemeProvider theme={theme_}>
-          <AppBar position="static" className={classes.appbar} color="primary">
-            <Toolbar variant="dense">
-              <Typography variant="h6">
-                ライブ情報共有サイト
-              </Typography>
-            </Toolbar>
-          </AppBar>
-        </ThemeProvider>
+        <AppBar position="static" className={classes.appbar} color="primary">
+          <Toolbar variant="dense" className={classes.textField}>
+            <Grid container justify="center">
+              <Grid item xs={4}>
+                <img alt='ロゴ' src={logo} className={classes.img}/>
+              </Grid>
+              <Grid item xs={7}>
+                <Typography variant="h5" className={classes.headerText} align="center">
+                  {this.props.title}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </AppBar>
         <br />
       </div>
     );

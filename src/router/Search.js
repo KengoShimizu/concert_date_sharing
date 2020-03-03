@@ -2,42 +2,71 @@ import React from 'react';
 import SearchForm from '../components/SearchForm';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@material-ui/core';
+import Header from '../components/Header';
+import search_svg from '../img/search.svg';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles({
+  img: {
+    position: 'absolute',
+    width: '150px',
+    opacity: '0.1'
+  }
+});
 
 function Search() {
+  const classes = useStyles();
   return (
     <div className="Search">
 
-      <Typography>
-        本サービスはアーティストのライブ情報を共有することを目的としています<br />
-        あなたの好きなアーティストのライブ情報を検索してみましょう！<br />
-      </Typography>
-      <br />
+    <Header title="検索ページ"/>
 
-      <Typography
-        color="textSecondary"
-        >
-        *必須
-      </Typography>
-      <br />
+      <div style={{width:'95%', margin:'0 auto'}}>
 
-      <SearchForm />
-      <br />
+        <img alt='検索' src={search_svg} className={classes.img}/>
 
-      <Typography>
-        検索がヒットしなかったら登録してみてね！
-      </Typography>
+        <Typography variant="body1">
+          あなたの好きなアーティストのライブ情報を検索してみましょう！<br />
+        </Typography>
+        <br />
 
-      <Link to="/register" style={{textDecoration: 'none'}}>
-        <Button
-          variant="contained"
-          color="secondary"
-          fullWidth
-          >
-          ライブ情報を登録する
-        </Button>
-      </Link>
-      <br />
-      <br />
+        <Typography color="textSecondary" variant="body1">
+          *必須
+        </Typography>
+        <br />
+
+        <SearchForm />
+        <br />
+
+        <Typography variant="body1">
+          検索がヒットしなかったら登録してみてね！
+        </Typography>
+
+        <Link to="/register" style={{textDecoration: 'none'}}>
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            >
+            ライブ情報を登録する
+          </Button>
+        </Link>
+        <br />
+        <br />
+
+        <Link to="/" style={{textDecoration: 'none'}}>
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            >
+            トップに戻る
+          </Button>
+        </Link>
+        <br />
+        <br />
+
+      </div>
 
     </div>
   );

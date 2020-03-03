@@ -1,7 +1,9 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/styles';
 import { TableCell, TableRow } from '@material-ui/core';
-//import { green } from '@material-ui/core/colors';
+
+export const json_url = "https://concertapi.herokuapp.com/concert_details";
+//http://localhost:3001/concert_details
 
 export const StyledTableCell = withStyles(theme => ({
   head: {
@@ -24,10 +26,10 @@ export const StyledTableRow = withStyles(theme => ({
 export const theme_ = createMuiTheme({
   palette: {
     primary: {
-      main: '#00e5ff',
+      main: '#20b2aa',
     },
     secondary: {
-      main: '#03a9f4',
+      main: '#40e0d0',
     },
   },
 });

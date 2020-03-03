@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+import './index.css';
 import Main from './router/Main';
-import Header from './components/Header';
+import Footer from './components/Footer';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { theme_ } from './common_theme';
@@ -11,11 +11,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 ReactDOM.render(
   <ThemeProvider theme={theme_}>
     <BrowserRouter>
-      <Header />
-      <div style={{width:'95%', margin:'0 auto'}}>
-        <Main />
-      </div>
+      <Main />
     </BrowserRouter>
+    <Footer />
   </ThemeProvider>
 , document.getElementById('root'));
 

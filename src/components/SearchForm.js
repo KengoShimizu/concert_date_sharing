@@ -1,8 +1,19 @@
 import React from 'react';
-import './sass/form.scss';
-import { Button, TextField, Table, TableBody, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import { Button, TextField, Table, TableBody, TableContainer, TableHead, TableRow, Paper, withStyles } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
-import { StyledTableCell, StyledTableRow } from '../common_theme';
+import { StyledTableCell, StyledTableRow, json_url } from '../common_theme';
+
+const styles = {
+  submit_disabled: {
+    pointerEvents: 'none !important',
+    color: 'rgba(0, 0, 0, 0.26) !important',
+    boxShadow: 'none !important',
+    backgroundColor: 'rgba(0, 0, 0, 0.12) !important',
+    'span': {
+      color: 'rgba(0, 0, 0, 0.26) !important',
+    }
+  }
+};
 
 class SearchForm extends React.Component {
   constructor(props) {
@@ -16,15 +27,13 @@ class SearchForm extends React.Component {
 
   //DBアクセス・Json取得
   fetchResponse = () => {
-    //fetch('http://localhost:3001/concert_details')
-    fetch('https://concertapi.herokuapp.com/concert_details')
+    fetch( json_url )
     .then( res => res.json() )
     .then( res => {
       this.setState({
         isfetched: true,
         db_json: res
       });
-
     })
   };
 
@@ -53,6 +62,8 @@ class SearchForm extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
+
     //プルダウンにアーティスト名を追加
     const loading = [{ value: 'loading', lavel: 'loading' }];
     let options;
@@ -66,25 +77,25 @@ class SearchForm extends React.Component {
       let list = [];
       for (let i=0; i<this.state.json[0].dates.length; i++) {
         list.push(
-          <div>
+          <div key={`table${i}`}>
             <br />
             <TableContainer component={Paper}>
               <Table aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell align="center" colSpan={2}>{this.state.json[0].concerts[i]}</StyledTableCell>
+                    <StyledTableCell align="center" colSpan={2} key={`name${i}`}>{this.state.json[0].concerts[i]}</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <StyledTableRow key="">
+                  <StyledTableRow key={`date${i}`}>
                     <StyledTableCell component="th" scope="row" align="center">日程</StyledTableCell>
                     <StyledTableCell align="left">{this.state.json[0].dates[i].substr(0, 10)}</StyledTableCell>
                   </StyledTableRow>
-                  <StyledTableRow key="">
+                  <StyledTableRow key={`todo${i}`}>
                     <StyledTableCell component="th" scope="row" align="center">都道府県</StyledTableCell>
                     <StyledTableCell align="left">{this.state.json[0].todohukens[i]}</StyledTableCell>
                   </StyledTableRow>
-                  <StyledTableRow key="">
+                  <StyledTableRow key={`kaijo${i}`}>
                     <StyledTableCell component="th" scope="row" align="center">会場</StyledTableCell>
                     <StyledTableCell align="left">{this.state.json[0].kaijos[i]}</StyledTableCell>
                   </StyledTableRow>
@@ -122,10 +133,10 @@ class SearchForm extends React.Component {
             variant="contained"
             color="secondary"
             onClick={this.search}
-            className={this.state.isinputted ? "" : "submit-disabled"}
+            className={this.state.isinputted ? "" : classes.submit_disabled}
             fullWidth
             >
-            ライブ日程を検索する
+            ライブ情報を検索する
           </Button>
         </form>
         {detail_table}
@@ -134,4 +145,4 @@ class SearchForm extends React.Component {
   }
 }
 
-export default SearchForm;
+export default withStyles(styles)(SearchForm);
