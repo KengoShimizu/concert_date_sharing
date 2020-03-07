@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { withStyles } from '@material-ui/styles';
 import { TableCell, TableRow } from '@material-ui/core';
 
-export const json_url = "http://localhost:3001/concert_details";
+export const json_url = "https://concertapi.herokuapp.com/concert_details";
 //http://localhost:3001/concert_details
 
 export const StyledTableCell = withStyles(theme => ({
