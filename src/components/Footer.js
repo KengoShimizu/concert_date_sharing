@@ -1,12 +1,14 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography} from '@material-ui/core';
+import { AppBar, Toolbar, Typography, BottomNavigation } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
-  root: {
-    marginTop: 'auto'
+  root:{
+    position: 'relative',
   },
   appbar: {
+    position: 'fixed',
+    bottom: 0,
     alignItems: 'center',
     backgroundColor: '#f5fffa'
   },

@@ -24,7 +24,8 @@ function Top() {
   return (
     <div className="Search">
 
-    <Header title="トップページ"/>
+    <Header title="トップ"/>
+    <br /><br />
 
       <div style={{width:'95%', margin:'0 auto'}}>
 

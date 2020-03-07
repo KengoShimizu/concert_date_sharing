@@ -3,8 +3,12 @@ import { AppBar, Toolbar, Typography, withStyles, Grid } from '@material-ui/core
 import logo from '../img/logo.png';
 
 const styles = {
+  root:{
+    display: 'flex',
+    flexDirection: 'column',
+  },
   appbar: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerText: {
     opacity: '0.7'
@@ -36,7 +40,6 @@ class Header extends React.Component {
             </Grid>
           </Toolbar>
         </AppBar>
-        <br />
       </div>
     );
   }

@@ -19,7 +19,8 @@ function Register() {
   return (
     <div className="Register">
 
-      <Header title="登録ページ"/>
+      <Header title="登録"/>
+      <br /><br />
 
       <div style={{width:'95%', margin:'0 auto'}}>
 
@@ -63,8 +64,7 @@ function Register() {
             トップに戻る
           </Button>
         </Link>
-        <br />
-        <br />
+        <br /><br /><br /><br /><br />
 
       </div>
 

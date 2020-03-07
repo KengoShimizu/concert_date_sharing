@@ -19,7 +19,8 @@ function Search() {
   return (
     <div className="Search">
 
-    <Header title="検索ページ"/>
+    <Header title="検索"/>
+    <br /><br />
 
       <div style={{width:'95%', margin:'0 auto'}}>
 
@@ -63,8 +64,7 @@ function Search() {
             トップに戻る
           </Button>
         </Link>
-        <br />
-        <br />
+        <br /><br /><br /><br /><br />
 
       </div>
 

@@ -5,6 +5,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { Autocomplete } from '@material-ui/lab';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { json_url } from '../common_theme';
+import { withRouter } from 'react-router';
 
 const styles = {
   submit_disabled: {
@@ -201,7 +202,9 @@ class Form extends React.Component {
         kaijos: this.state.kaijos
       }),
       headers: new Headers({ 'Content-type' : 'application/json' })
-    })
+    });
+
+    this.props.history.push('/registered');
   };
 
 
@@ -380,4 +383,4 @@ const options = [
 	{ value:  "okinawa おきなわ",  label: "沖縄県" }
 ]
 
-export default withStyles(styles)(Form);
+export default withStyles(styles)(withRouter(Form));
