@@ -7,6 +7,12 @@ import search_svg from '../img/search.svg';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
+  title: {
+    fontSize: '50px !important',
+    fontWeight: 'bold !important',
+    marginTop: '20px',
+    marginLeft: '20px'
+  },
   img: {
     position: 'absolute',
     width: '150px',
@@ -25,8 +31,8 @@ function Top() {
     <div className="Top">
 
     <Header title="トップ"/>
-    <Typography variant="h1">LiveSharing</Typography>
-    <br /><br />
+    <Typography variant="h1" className={classes.title}>LiveSharing</Typography>
+    <br />
 
       <div style={{width:'95%', margin:'0 auto'}}>
 
