@@ -22,9 +22,10 @@ const useStyles = makeStyles({
 function Top() {
   const classes = useStyles();
   return (
-    <div className="Search">
+    <div className="Top">
 
     <Header title="トップ"/>
+    <Typography variant="h1">LiveSharing</Typography>
     <br /><br />
 
       <div style={{width:'95%', margin:'0 auto'}}>

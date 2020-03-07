@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, Paper, Grid, Button } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import Header from '../components/Header';
 
 function AfterRegister() {
   return (
-    <div className="Search">
+    <div className="AfterRegister">
 
     <Header title="登録完了"/>
     <br /><br />
